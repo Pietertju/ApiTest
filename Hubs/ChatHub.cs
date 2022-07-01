@@ -32,6 +32,23 @@ namespace ApiTest.Hubs
             await Clients.All.SendAsync("giveMessage", chatResponse.Message, chatResponse.Username, chatResponse.time);
         }
 
+        public async Task SendAdminMessage(string message)
+        {
+            var chatResponse = new ChatResponse()
+            {
+                Username = Context.User.Identity.Name,
+                Message = message,
+                time = DateTime.Now.ToString("h:mm:ss tt")
+            };
+
+            messages.Add(chatResponse);
+            if (messages.Count() > 10)
+            {
+                messages.RemoveAt(0);
+            }
+            await Clients.Group(UserRoles.Admin).SendAsync("giveMessage", chatResponse.Message, chatResponse.Username, chatResponse.time);
+        }
+
         public async Task GetUserMessages()
         {   
             foreach(ChatResponse c in messages)
@@ -65,6 +82,7 @@ namespace ApiTest.Hubs
                 Users.Add(connId);
                 Debug.WriteLine("\n added user " + connId);
                 await Clients.Others.SendAsync("setClientMessage", "A connection with ID '" + connId + "' has just connected", DateTime.Now.ToString("h:mm:ss tt"));
+                await Clients.All.SendAsync("setUsersConnected", Users.Count());
             }
             await base.OnConnectedAsync();
         }
@@ -76,6 +94,7 @@ namespace ApiTest.Hubs
             {
                 Debug.WriteLine("\n removed user " + id);
                 await Clients.Others.SendAsync("setClientMessage", "A connection with ID '" + id + "' has just disconnected", DateTime.Now.ToString("h:mm:ss tt"));
+                await Clients.All.SendAsync("setUsersConnected", Users.Count());
             }
             await base.OnDisconnectedAsync(exception);
         }
