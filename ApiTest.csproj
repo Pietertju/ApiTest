@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Hubs\Clients\**" />
+    <Content Remove="Hubs\Clients\**" />
+    <EmbeddedResource Remove="Hubs\Clients\**" />
+    <None Remove="Hubs\Clients\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.26" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -20,10 +27,6 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.3.2" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.16.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Hubs\Clients\" />
   </ItemGroup>
 
 

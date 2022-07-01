@@ -18,6 +18,7 @@ using NSwag.Generation.Processors.Security;
 using System;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace APItest
 {
@@ -109,6 +110,15 @@ namespace APItest
                         }
 
                         return context.Response.WriteAsync(JsonSerializer.Serialize(context.ErrorDescription));
+                    },
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
                     }
                 };
             });
@@ -147,20 +157,6 @@ namespace APItest
             app.UseCors("CorsPolicy");
                             
             app.UseRouting();
-
-            hostApplicationLifetime.ApplicationStarted.Register(() =>
-            {
-
-                var serviceProvider = app.ApplicationServices;
-                var chatHub = (IHubContext<ChatHub>)serviceProvider.GetService(typeof(IHubContext<ChatHub>));
-
-                var timer = new System.Timers.Timer(1000);
-                timer.Enabled = true;
-                timer.Elapsed += delegate (object sender, System.Timers.ElapsedEventArgs e) {
-                    chatHub.Clients.All.SendAsync("setTime", DateTime.Now.ToString("dddd d MMMM yyyy HH:mm:ss"));
-                };
-                timer.Start();
-            });
 
             app.UseAuthentication();
             app.UseAuthorization();  
