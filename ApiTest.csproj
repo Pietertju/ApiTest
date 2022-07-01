@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.26" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.26" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.26">
@@ -18,6 +19,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.OpenApi" Version="1.3.2" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.16.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Hubs\Clients\" />
   </ItemGroup>
 
 
