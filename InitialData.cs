@@ -47,17 +47,35 @@ namespace ApiTest
 
         public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
-            if (userManager.FindByNameAsync("user1").Result == null)
+            if (userManager.FindByNameAsync("Pieter").Result == null)
             {
                 ApplicationUser user = new ApplicationUser();
                 user.UserName = "Pieter";
                 user.Email = "pieter.ebbers99@gmail.com";
+                user.EmailConfirmed = true;
 
                 IdentityResult result = userManager.CreateAsync(user, "admin").Result;
 
                 if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, UserRoles.Admin).Wait();
+                    userManager.AddToRoleAsync(user, UserRoles.User).Wait();
+                }
+            } 
+
+            if (userManager.FindByNameAsync("BlackHunt").Result == null)
+            {
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = "BlackHunt";
+                user.Email = "blackhunt@live.nl";
+                user.EmailConfirmed = true;
+
+                IdentityResult result = userManager.CreateAsync(user, "admin").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, UserRoles.Admin).Wait();
+                    userManager.AddToRoleAsync(user, UserRoles.User).Wait();
                 }
             }
         }
