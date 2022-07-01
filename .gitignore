@@ -4,25 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 .vs/*
-BrowserBasedManagementServer/bin/*
-BrowserBasedManagementServer/obj/*
-OracleClient/obj/*
-Anago.Settings/obj/*
-AnagoSettingsControllers/obj/*
-DistributionController/obj/*
-FileManagerControllers/obj/*
-OracleClient/bin/*
-Anago.Settings/bin/*
-AnagoSettingsControllers/bin/*
-DistributionController/bin/*
-FileManagerControllers/bin/*
-DatabaseManagementControllers/bin/*
-DatabaseManagementControllers/obj/*
+obj/*
+bin/*
 packages/*
-BrowserBasedManagementServer/Properties/PublishProfiles/FolderProfile.pubxml.user
-BrowserBasedManagementServer/Properties/PublishProfiles/FolderProfile.pubxml
-BrowserBasedManagementServer/BrowserBasedManagementServer.csproj.user
-BrowserBasedManagementServer/BrowserBasedManagementServer.csproj.user
+
 # User-specific files
 *.rsuser
 *.suo
