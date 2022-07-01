@@ -81,4 +81,3 @@ C:\Users\Pieter\Documents\Repository\ApiTest\obj\Debug\netcoreapp3.1\ApiTest.dll
 C:\Users\Pieter\Documents\Repository\ApiTest\obj\Debug\netcoreapp3.1\ApiTest.pdb
 C:\Users\Pieter\Documents\Repository\ApiTest\obj\Debug\netcoreapp3.1\ApiTest.genruntimeconfig.cache
 C:\Users\Pieter\Documents\Repository\ApiTest\obj\Debug\netcoreapp3.1\ApiTest.csproj.CopyComplete
-C:\Users\Pieter\Documents\Repository\ApiTest\obj\Debug\netcoreapp3.1\ApiTest.csproj.AssemblyReference.cache
