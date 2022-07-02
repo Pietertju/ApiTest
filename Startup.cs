@@ -56,12 +56,14 @@ namespace APItest
 
             services.AddSignalR();
 
+            string[] origins = {"http://localhost:3000", "https://pebbers.nl", "https://www.pebbers.nl", "http://pebbers.nl", "http://www.pebbers.nl" };
+
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
                 builder
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:3000");
+                .WithOrigins(origins);
             }));
 
             // Adding Authentication  
