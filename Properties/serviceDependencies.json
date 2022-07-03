@@ -3,10 +3,6 @@
     "apis1": {
       "type": "apis"
     },
-    "signalr1": {
-      "type": "signalr",
-      "connectionId": "Azure__SignalR__ConnectionString"
-    },
     "mssql2": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:AuthConnStr"
@@ -18,6 +14,10 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:UsersConnStr"
+    },
+    "signalr1": {
+      "type": "signalr",
+      "connectionId": "Azure__SignalR__ConnectionString"
     }
   }
 }
