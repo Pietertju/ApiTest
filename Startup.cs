@@ -7,15 +7,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using NSwag;
-using NSwag.Generation.Processors.Security;
-using System;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -56,7 +53,7 @@ namespace APItest
 
             services.AddSignalR();
 
-            string[] origins = {"http://localhost:3000", "https://pebbers.nl", "https://www.pebbers.nl", "http://pebbers.nl", "http://www.pebbers.nl" };
+            string[] origins = {"http://localhost:3000", "https://pebbers.nl", "https://www.pebbers.nl", "http://pebbers.nl", "http://www.pebbers.nl", "https://pebbersbackend.developer.azure-api.net", "https://pebbersapibackend.azurewebsites.net" };
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
                 builder
@@ -125,19 +122,48 @@ namespace APItest
                 };
             });
 
-            services.AddOpenApiDocument(document =>
+            services.AddSwaggerGen(c =>
             {
-                document.AddSecurity("Bearer", new NSwag.OpenApiSecurityScheme
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Type = OpenApiSecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                    BearerFormat = "JWT",
-                    Description = "Type into the textbox: {your JWT token}."
+                    Title = "PebbersApi",
+                    Version = "v1"
                 });
-                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+               {
+                 new OpenApiSecurityScheme
+                 {
+                   Reference = new OpenApiReference
+                   {
+                     Type = ReferenceType.SecurityScheme,
+                     Id = "Bearer"
+                   }
+                  },
+                  new string[] { }
+                }
+              });
             });
 
-            
+            //services.AddOpenApiDocument(document =>
+            //{
+            //    document.AddSecurity("Bearer", new NSwag.OpenApiSecurityScheme
+            //    {
+            //        Type = OpenApiSecuritySchemeType.Http,
+            //        Scheme = JwtBearerDefaults.AuthenticationScheme,
+            //        BearerFormat = "JWT",
+            //        Description = "Type into the textbox: {your JWT token}."
+            //    });
+            //    document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+            //});
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -152,8 +178,11 @@ namespace APItest
             todoContext.Seed();
             InitialData.Seed(userManager, roleManager);
 
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
+           // app.UseOpenApi();
+
+            //app.UseSwaggerUi3();
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
