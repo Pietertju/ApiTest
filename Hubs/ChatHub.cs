@@ -97,6 +97,9 @@ namespace ApiTest.Hubs
                 await Clients.Others.SendAsync("setClientMessage", "A connection with username '" + id + "' has just disconnected", DateTime.Now.ToString("h:mm:ss tt"));
                 await Clients.All.SendAsync("setUsersConnected", Users);
             }
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, id);
+
             await base.OnDisconnectedAsync(exception);
         }  
     }
