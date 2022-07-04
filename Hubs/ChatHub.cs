@@ -29,7 +29,7 @@ namespace ApiTest.Hubs
             {
                 messages.RemoveAt(0);
             }
-            await Clients.All.SendAsync("giveMessage", chatResponse.Message, chatResponse.Username, chatResponse.time);
+            await Clients.All.SendAsync("giveMessage", chatResponse);
         }
 
         public async Task SendAdminMessage(string message)
@@ -41,12 +41,11 @@ namespace ApiTest.Hubs
                 time = DateTime.Now.ToString("h:mm:ss tt")
             };
 
-            messages.Add(chatResponse);
             if (messages.Count() > 10)
             {
                 messages.RemoveAt(0);
             }
-            await Clients.Group(UserRoles.Admin).SendAsync("giveMessage", chatResponse.Message, chatResponse.Username, chatResponse.time);
+            await Clients.Group(UserRoles.Admin).SendAsync("giveMessage", chatResponse);
         }
 
         public async Task GetUserMessages()
@@ -79,10 +78,12 @@ namespace ApiTest.Hubs
                     await Groups.AddToGroupAsync(Context.ConnectionId, UserRoles.Guest);
                 }
 
+                await Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+
                 Users.Add(connId);
                 Debug.WriteLine("\n added user " + connId);
-                await Clients.Others.SendAsync("setClientMessage", "A connection with ID '" + connId + "' has just connected", DateTime.Now.ToString("h:mm:ss tt"));
-                await Clients.All.SendAsync("setUsersConnected", Users.Count());
+                await Clients.Others.SendAsync("setClientMessage", "A connection with username '" + connId + "' has just connected", DateTime.Now.ToString("h:mm:ss tt"));
+                await Clients.All.SendAsync("setUsersConnected", Users);
             }
             await base.OnConnectedAsync();
         }
@@ -93,10 +94,10 @@ namespace ApiTest.Hubs
             if (Users.Remove(id))
             {
                 Debug.WriteLine("\n removed user " + id);
-                await Clients.Others.SendAsync("setClientMessage", "A connection with ID '" + id + "' has just disconnected", DateTime.Now.ToString("h:mm:ss tt"));
-                await Clients.All.SendAsync("setUsersConnected", Users.Count());
+                await Clients.Others.SendAsync("setClientMessage", "A connection with username '" + id + "' has just disconnected", DateTime.Now.ToString("h:mm:ss tt"));
+                await Clients.All.SendAsync("setUsersConnected", Users);
             }
             await base.OnDisconnectedAsync(exception);
-        }
+        }  
     }
 }
