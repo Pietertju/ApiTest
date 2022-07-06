@@ -51,7 +51,7 @@ namespace APItest
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSignalR().AddAzureSignalR();
+            services.AddSignalR();//.AddAzureSignalR();
 
             string[] origins = {"http://localhost:3000", "https://localhost:3000", "https://pebbers.nl", "https://www.pebbers.nl", "http://pebbers.nl", "http://www.pebbers.nl", "https://pebbersbackend.developer.azure-api.net", "https://pebbersapibackend.azurewebsites.net" };
 
